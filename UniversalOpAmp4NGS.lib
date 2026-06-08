@@ -1,0 +1,192 @@
+* -------------------------------------------------------------------------- *
+*                                                                            *
+*      Universal OpAmp Model for NGSPICE                                     *
+*                                                                            *
+* -------------------------------------------------------------------------- *
+
+
+
+* ############################################################################
+* # Universal OpAmp with single pole                                         #
+* ############################################################################
+
+.subckt UniversalOpAmp2 1 2 3 4 5
+*                       | | | | |
+*                       | | | | Out
+*                       | | | V-
+*                       | | V+
+*                       | In-
+*                       In+
+*
++ params: Avol=1Meg GBW=10Meg Slew=10Meg Vos=0mV ilimit=25mA railp=0V railn=0V Ron=1 Rout=50 Rincm=1e13 Rindiff=1e13 phimargin=90 Vgwid=1.2V
+*
+**** PARAMETER DESCRIPTIONS ****
+*   Avol: Open-Loop voltage Gain [V/V]
+*   GBW: Gain Bandwidth Product [Hz]
+*   Slew: Slew rate [V/sec]
+*   Vos: Input offset voltage [V]
+*   ilimit: Output short circuit current [A]
+*   railp: Gap from maximum output voltage to positive power supply(V+) [V]
+*   railn: Gap from negative power supply(V-) to minimum output voltage [V]
+*   Ron: On-resistance of output transistor [ohm]
+*   Rout: Open-Loop output impedance [ohm]
+*   Rincm: Common-Mode Input impedance [ohm]
+*   Rindiff: Differential Input impedance [ohm]
+*   phimargin: (not supported)
+*   Vgwid: Adjusting this may help you fix convergence error (>0.1)
+*
+.param pi=3.141592653589793
+.param pi2={pi*2}
+*
+* +-------------+
+* | Input Stage |
+* +-------------+
+RIN1 3 1 {2*Rincm}
+RIN2 3 2 {2*Rincm}
+RIN3 2 4 {2*Rincm}
+RIN4 1 4 {2*Rincm}
+RIN5 1 2 {Rindiff}
+*
+* +---------------+
+* | Amplify Stage |
+* +---------------+
+.param RR1={(Avol >= 1Meg) && (Avol*Slew/GBW >= 10Meg) ? 100Meg : 100k}
+.param gm1={Avol/RR1}
+.param CC1={gm1/(pi2*GBW)}
+.param Islew={CC1*Slew}
+BG1 0 N001 I='Islew*tanh(V(1,2)*gm1/Islew)'
+C1  N001 0 {CC1}
+R11 N001 3 {2*RR1}
+R12 4 N001 {2*RR1}
+D1  N001 3 DPULL
+D2  4 N001 DPULL
+*
+* +--------------+
+* | Output Stage |
+* +--------------+
+XQ1 5 3 N001 5 simulated_fet_sw Ionmax={ilimit} Vser={railp} Ron={Ron} Rout={Rout} Vgwid={Vgwid}
+XQ2 4 5 5 N001 simulated_fet_sw Ionmax={ilimit} Vser={railn} Ron={Ron} Rout={Rout} Vgwid={Vgwid}
+.param COUT=2p
+C3 5 4 {COUT/2}
+C4 3 5 {COUT/2}
+D3 5 3 DPULL
+D4 4 5 DPULL
+.model DPULL D(Rs=1)
+*
+.ends
+*$
+
+
+
+* ############################################################################
+* # Universal OpAmp with two poles                                           #
+* ############################################################################
+
+.subckt UniversalOpAmp3a 1 2 3 4 5
+*                        | | | | |
+*                        | | | | Out
+*                        | | | V-
+*                        | | V+
+*                        | In-
+*                        In+
+*
++ params: Avol=1Meg GBW=10Meg Slew=10Meg Vos=0mV ilimit=25mA railp=0V railn=0V Ron=1 Rout=50 Rincm=1e13 Rindiff=1e13 phimargin=45 Vgwid=1.2V
+*
+**** PARAMETER DESCRIPTIONS ****
+*   Avol: Open-Loop voltage Gain [V/V]
+*   GBW: Gain Bandwidth Product [Hz]
+*   Slew: Slew rate [V/sec]
+*   Vos: Input offset voltage [V]
+*   ilimit: Output short circuit current [A]
+*   railp: Gap from maximum output voltage to positive power supply(V+) [V]
+*   railn: Gap from negative power supply(V-) to minimum output voltage [V]
+*   Ron: On-resistance of output transistor [ohm]
+*   Rout: Open-Loop output impedance [ohm]
+*   Rincm: Common-Mode Input impedance [ohm]
+*   Rindiff: Differential Input impedance [ohm]
+*   phimargin: Phase margin at unloaded condition [degree] (useful range = 2 ~ 90)
+*   Vgwid: Adjusting this may help you fix convergence error (>0.1)
+*
+.param pi=3.141592653589793
+.param pi2={pi*2}
+*
+* +-------------+
+* | Input Stage |
+* +-------------+
+RIN1 3 1 {2*Rincm}
+RIN2 3 2 {2*Rincm}
+RIN3 2 4 {2*Rincm}
+RIN4 1 4 {2*Rincm}
+RIN5 1 2 {Rindiff}
+*
+* +---------------+
+* | Amplify Stage |
+* +---------------+
+.param RR1={(Avol >= 1Meg) && (Avol*Slew/GBW >= 10Meg) ? 100Meg : 100k}
+.param gm1={Avol/RR1}
+.param CC1={gm1/(pi2*GBW)}
+.param Islew={CC1*Slew}
+BG1 0 N001 I='Islew*tanh(V(1,2)*gm1/Islew)'
+C1  N001 0 {CC1}
+R11 N001 3 {2*RR1}
+R12 4 N001 {2*RR1}
+D1  N001 3 DPULL
+D2  4 N001 DPULL
+*
+* +----------------+
+* | 2nd Pole Stage |
+* +----------------+
+.param RR2=1Meg
+.param gm2={1/RR2}
+.param logphi={log(max(phimargin, 0.01))}
+.param X={0.089213244342034*(logphi**6)-2.0330123425203053*(logphi**5)+19.39875811124115*(logphi**4)-99.64061023577621*(logphi**3)+292.2395635444727*(logphi**2)-467.4788425726529*(logphi**1)+321.52463521259574}
+G2  0 N002  N001 0  {gm2}
+C2  N002 0 {max(X,0)*gm2/GBW}
+R2  N002 0 {RR2}
+*
+* +--------------+
+* | Output Stage |
+* +--------------+
+XG3 5 3 N002 5 simulated_fet_sw Ionmax={ilimit} Vser={railp} Ron={Ron} Rout={Rout} Vgwid={Vgwid}
+XG4 4 5 5 N002 simulated_fet_sw Ionmax={ilimit} Vser={railn} Ron={Ron} Rout={Rout} Vgwid={Vgwid}
+.param COUT=2p
+C3 5 4 {COUT/2}
+C4 3 5 {COUT/2}
+D3 5 3 DPULL
+D4 4 5 DPULL
+.model DPULL D(Rs=1)
+*
+.ends
+*$
+
+
+
+* ############################################################################
+* # Simulated FET - Gradual Switch                                           #
+* ############################################################################
+
+.subckt  simulated_fet_sw      1     2     3     4
+*                            Source Sink  VG+   VG-
++ params: Ionmax=25m Ioffmax=10nA Ron=1 Rout=50 Vser=0 Vrev=-100u Vgth=0 Vgwid=1.2V
+*
+.param PI=3.141592653589793
+*
+.param A = {sqrt(Ionmax/Ioffmax)}
+*
+.param Y = {max(Rout*Ionmax*log(A)/Vgwid, 0.432*log(1.75*A))}
+*
+.param k1 = {2*atanh(log(pi*(Y-0.41*log(0.36*A)))/log(A)-1)/pi}
+*.param k1 = {min(-log((Y - 0.273*log(2.17*A))*12.6)/pi, -log(Y/0.276)/2.92)}
+*
+*.param k1 = {min(-0.5, -log(6.3*Rout*log(Ionmax/Ioffmax)*Ionmax/Vgwid)/pi)}
+*
+*.param k1 = {(2*atanh(max(-0.9,min(0.9,(2*log((5*PI*sqrt(Ioffmax*Ionmax)*log(Ionmax/Ioffmax)*Rout)/(11*Vgwid)))/log(Ionmax/Ioffmax)))))/PI}
+*
+.param Vh = {(PI*sqrt(Ioffmax*Ionmax)*log(Ionmax/Ioffmax)*Rout)/(2*(Ionmax/Ioffmax)**(tanh((PI*k1)/2)/2)*(cosh((PI*k1)/2))**2)}
+*
+.param Vth = {Vgth+k1*Vh}
+*
+B1 2 1 I = 'tanh(max({Vrev}, V(2,1)-{Vser})/{Ron}/{Ionmax}) * sqrt({Ioffmax}*{Ionmax})*(sqrt({Ioffmax}/{Ionmax}))**(tanh(-{PI}/2*(V(3,4)-{Vth})/{Vh}))'
+*
+.ends
+*$
