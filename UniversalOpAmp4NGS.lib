@@ -2,6 +2,7 @@
 *                                                                            *
 *      Universal OpAmp Model for NGSPICE                                     *
 *                                                                            *
+*      https://github.com/kitanokitsune/universal_opamp_for_ngspice          *
 * -------------------------------------------------------------------------- *
 
 
@@ -175,12 +176,7 @@ D4 4 5 DPULL
 *
 .param Y = {max(Rout*Ionmax*log(A)/Vgwid, 0.432*log(1.75*A))}
 *
-.param k1 = {2*atanh(log(pi*(Y-0.41*log(0.36*A)))/log(A)-1)/pi}
-*.param k1 = {min(-log((Y - 0.273*log(2.17*A))*12.6)/pi, -log(Y/0.276)/2.92)}
-*
-*.param k1 = {min(-0.5, -log(6.3*Rout*log(Ionmax/Ioffmax)*Ionmax/Vgwid)/pi)}
-*
-*.param k1 = {(2*atanh(max(-0.9,min(0.9,(2*log((5*PI*sqrt(Ioffmax*Ionmax)*log(Ionmax/Ioffmax)*Rout)/(11*Vgwid)))/log(Ionmax/Ioffmax)))))/PI}
+.param k1 = {2*atanh(log(PI*(Y-0.41*log(0.36*A)))/log(A)-1)/PI}
 *
 .param Vh = {(PI*sqrt(Ioffmax*Ionmax)*log(Ionmax/Ioffmax)*Rout)/(2*(Ionmax/Ioffmax)**(tanh((PI*k1)/2)/2)*(cosh((PI*k1)/2))**2)}
 *
