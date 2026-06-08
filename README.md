@@ -24,7 +24,7 @@ This model is based on the following resources:
 ## 4. Quick Start
 test.cir\:
 ```
-.title MCP602x Gain=n_out/n_in
+.title MCP6021 Open Loop Gain = -V(n_out)/V(n_in)
 .include "UniversalOpAmp4NGS.lib"
 .save V(n_in)
 .save V(n_out)
