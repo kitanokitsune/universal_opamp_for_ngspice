@@ -34,9 +34,9 @@ V1  n_in n_out  DC 0 SIN( 0 0 1k 0 0 0 ) AC 1
 R1  n_out 0  10k
 C1  n_out 0  60p
 XU1 0 n_in n004 n005 n_out  UniversalOpAmp3a
-+ Avol=1Meg GBW=10.8Meg Slew=7Meg Vos=500uV ilimit=22mA
-+ railp=15mV railn=10mV Ron=20 Rout=35 Rincm=1e13 Rindiff=1e13
-+ phimargin=73
++ Avol=1.1Meg GBW=11.5Meg Slew=7Meg Vos=500uV ilimit=22mA
++ railp=15mV railn=10mV Ron=20 Rout=115 Rincm=1e13 Rindiff=1e13
++ phimargin=89
 V2  n004 0  DC 2.5
 V3  0 n005  DC 2.5
 
