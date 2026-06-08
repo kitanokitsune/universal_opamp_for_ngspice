@@ -45,7 +45,7 @@ V3  0 n005  DC 2.5
 
 Exec:
 ```bash
-ngspice -b -r test.tmp -o test.log test.cir
+ngspice -b -r test.raw -o test.log test.cir
 ```
 
 ## 5. Parameters
