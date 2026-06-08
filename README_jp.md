@@ -59,10 +59,10 @@ ngspice -b -r test.raw -o test.log test.cir
 | `ilimit` | 出力短絡電流 | [A] |
 | `railp` | 正電源(V+)から最大出力までのマージン | [V] |
 | `railn` | 負電源(V-)から最小出力までのマージン | [V] |
-| `Ron` | 出力トランジスタのオン抵抗 | [$\Omega$] |
-| `Rout` | オープンループ出力インピーダンス | [$\Omega$] |
-| `Rincm` | 同相入力インピーダンス | [$\Omega$] |
-| `Rindiff` | 差動入力インピーダンス | [$\Omega$] |
+| `Ron` | 出力トランジスタのオン抵抗 | [&Omega;] |
+| `Rout` | オープンループ出力インピーダンス | [&Omega;] |
+| `Rincm` | 同相入力インピーダンス | [&Omega;] |
+| `Rindiff` | 差動入力インピーダンス | [&Omega;] |
 | `phimargin` | 位相余裕（2-poleモデルのみ） | [deg] |
 
 ## 6. ライセンス
