@@ -59,10 +59,10 @@ ngspice -b -r test.raw -o test.log test.cir
 | `ilimit` | Output short circuit current | [A] |
 | `railp` | Gap from max output to V+ | [V] |
 | `railn` | Gap from min output to V- | [V] |
-| `Ron` | On-resistance of output transistor | [$\Omega$] |
-| `Rout` | Open-Loop output impedance | [$\Omega$] |
-| `Rincm` | Common-Mode Input impedance | [$\Omega$] |
-| `Rindiff` | Differential Input impedance | [$\Omega$ |
+| `Ron` | On-resistance of output transistor | [&Omega;] |
+| `Rout` | Open-Loop output impedance | [&Omega;] |
+| `Rincm` | Common-Mode Input impedance | [&Omega;] |
+| `Rindiff` | Differential Input impedance | [&Omega;] |
 | `phimargin` | Phase margin (2-pole model only) | [deg] |
 
 ## 6. License
