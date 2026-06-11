@@ -55,7 +55,7 @@ RIN5 1 2 {Rindiff}
 .param gm1={Avol/RR1}
 .param CC1={gm1/(pi2*GBW)}
 .param Islew={CC1*Slew}
-BG1 0 N001 I='Islew*tanh(V(1,2)*gm1/Islew)'
+BG1 0 N001 I='Islew*tanh((V(1,2)+Vos)*gm1/Islew)'
 C1  N001 0 {CC1}
 R11 N001 3 {2*RR1}
 R12 4 N001 {2*RR1}
@@ -127,7 +127,7 @@ RIN5 1 2 {Rindiff}
 .param gm1={Avol/RR1}
 .param CC1={gm1/(pi2*GBW)}
 .param Islew={CC1*Slew}
-BG1 0 N001 I='Islew*tanh(V(1,2)*gm1/Islew)'
+BG1 0 N001 I='Islew*tanh((V(1,2)+Vos)*gm1/Islew)'
 C1  N001 0 {CC1}
 R11 N001 3 {2*RR1}
 R12 4 N001 {2*RR1}
@@ -176,11 +176,11 @@ D4 4 5 DPULL
 *
 .param Y = {max(Rout*Ionmax*log(A)/Vgwid, 0.432*log(1.75*A))}
 *
-.param k1 = {2*atanh(log(PI*(Y-0.41*log(0.36*A)))/log(A)-1)/PI}
+.param k = {2/PI*atanh(log(PI*(Y-0.41*log(0.36*A)))/log(A)-1)}
 *
-.param Vh = {(PI*sqrt(Ioffmax*Ionmax)*log(Ionmax/Ioffmax)*Rout)/(2*(Ionmax/Ioffmax)**(tanh((PI*k1)/2)/2)*(cosh((PI*k1)/2))**2)}
+.param Vh = {(PI*Rout*Ionmax*log(A)*(A**(-tanh(PI*k/2)-1))) / (cosh(PI*k/2)**2)}
 *
-.param Vth = {Vgth+k1*Vh}
+.param Vth = {Vgth+k*Vh}
 *
 B1 2 1 I = 'tanh(max({Vrev}, V(2,1)-{Vser})/{Ron}/{Ionmax}) * sqrt({Ioffmax}*{Ionmax})*(sqrt({Ioffmax}/{Ionmax}))**(tanh(-{PI}/2*(V(3,4)-{Vth})/{Vh}))'
 *
