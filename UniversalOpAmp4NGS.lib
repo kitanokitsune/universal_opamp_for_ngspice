@@ -174,7 +174,11 @@ D4 4 5 DPULL
 *
 .param A = {sqrt(Ionmax/Ioffmax)}
 *
-.param Y = {max(Rout*Ionmax*log(A)/Vgwid, 0.432*log(1.75*A))}
+.param k0 = {log(sqrt((log(A))**2+1)-log(A))/PI}
+*
+.param Ymin = {((cosh(PI*k0/2))**2)*(A**(tanh(PI*k0/2)+1))/3.14}
+*
+.param Y = {max(Rout*Ionmax*log(A)/Vgwid, Ymin)}
 *
 .param k = {2/PI*atanh(log(PI*(Y-0.41*log(0.36*A)))/log(A)-1)}
 *
