@@ -67,12 +67,12 @@ D2  4 N001 DPULL
 * +--------------+
 XQ1 5 3 N001 5 simulated_fet_sw Ionmax={ilimit} Vser={railp} Ron={Ron} Rout={Rout} Vgwid={Vgwid}
 XQ2 4 5 5 N001 simulated_fet_sw Ionmax={ilimit} Vser={railn} Ron={Ron} Rout={Rout} Vgwid={Vgwid}
-.param COUT=2p
+.param COUT=4p
 C3 5 4 {COUT/2}
 C4 3 5 {COUT/2}
 D3 5 3 DPULL
 D4 4 5 DPULL
-.model DPULL D(Rs=1)
+.model DPULL D(Rs=50m)
 *
 .ends
 *$
@@ -142,7 +142,7 @@ D2  4 N001 DPULL
 .param logphi={log(max(phimargin, 0.01))}
 .param X={0.089213244342034*(logphi**6)-2.0330123425203053*(logphi**5)+19.39875811124115*(logphi**4)-99.64061023577621*(logphi**3)+292.2395635444727*(logphi**2)-467.4788425726529*(logphi**1)+321.52463521259574}
 G2  0 N002  N001 0  {gm2}
-C2  N002 0 {max(X,0)*gm2/GBW}
+C2  N002 0 {max(X,0)/RR2/GBW}
 R2  N002 0 {RR2}
 *
 * +--------------+
@@ -150,12 +150,12 @@ R2  N002 0 {RR2}
 * +--------------+
 XG3 5 3 N002 5 simulated_fet_sw Ionmax={ilimit} Vser={railp} Ron={Ron} Rout={Rout} Vgwid={Vgwid}
 XG4 4 5 5 N002 simulated_fet_sw Ionmax={ilimit} Vser={railn} Ron={Ron} Rout={Rout} Vgwid={Vgwid}
-.param COUT=2p
+.param COUT=4p
 C3 5 4 {COUT/2}
 C4 3 5 {COUT/2}
 D3 5 3 DPULL
 D4 4 5 DPULL
-.model DPULL D(Rs=1)
+.model DPULL D(Rs=50m)
 *
 .ends
 *$
