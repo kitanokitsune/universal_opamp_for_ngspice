@@ -19,7 +19,7 @@
 *                       | In-
 *                       In+
 *
-+ params: Avol=1Meg GBW=10Meg Slew=10Meg Vos=0mV ilimit=25mA railp=0V railn=0V Ron=1 Rout=50 Rincm=1e13 Rindiff=1e13 phimargin=90 Vgwid=1.2V
++ params: Avol=1Meg GBW=10Meg Slew=10Meg Vos=0mV ilimit=25mA railp=0V railn=0V Ron=1 Rout=50 Rincm=1e13 Rindiff=1e13 phimargin=90 Vgwid=0.65V
 *
 **** PARAMETER DESCRIPTIONS ****
 *   Avol: Open-Loop voltage Gain [V/V]
@@ -72,7 +72,7 @@ C3 5 4 {COUT/2}
 C4 3 5 {COUT/2}
 D3 5 3 DPULL
 D4 4 5 DPULL
-.model DPULL D(Rs=50m)
+.model DPULL D(Rs=1m)
 *
 .ends
 *$
@@ -91,7 +91,7 @@ D4 4 5 DPULL
 *                        | In-
 *                        In+
 *
-+ params: Avol=1Meg GBW=10Meg Slew=10Meg Vos=0mV ilimit=25mA railp=0V railn=0V Ron=1 Rout=50 Rincm=1e13 Rindiff=1e13 phimargin=45 Vgwid=1.2V
++ params: Avol=1Meg GBW=10Meg Slew=10Meg Vos=0mV ilimit=25mA railp=0V railn=0V Ron=1 Rout=50 Rincm=1e13 Rindiff=1e13 phimargin=45 Vgwid=0.65V
 *
 **** PARAMETER DESCRIPTIONS ****
 *   Avol: Open-Loop voltage Gain [V/V]
@@ -155,7 +155,7 @@ C3 5 4 {COUT/2}
 C4 3 5 {COUT/2}
 D3 5 3 DPULL
 D4 4 5 DPULL
-.model DPULL D(Rs=50m)
+.model DPULL D(Rs=1m)
 *
 .ends
 *$
@@ -168,7 +168,7 @@ D4 4 5 DPULL
 
 .subckt  simulated_fet_sw      1     2     3     4
 *                            Source Sink  VG+   VG-
-+ params: Ionmax=25m Ioffmax=10nA Ron=1 Rout=50 Vser=0 Vrev=-100u Vgth=0 Vgwid=1.2V
++ params: Ionmax=25m Ioffmax=10nA Ron=1 Rout=50 Vser=0 Vrev=-100u Vgth=0 Vgwid=0.65V
 *
 .param PI=3.141592653589793
 *
