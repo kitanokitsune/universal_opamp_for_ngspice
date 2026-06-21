@@ -72,7 +72,7 @@ C3 5 4 {COUT/2}
 C4 3 5 {COUT/2}
 D3 5 3 DPULL
 D4 4 5 DPULL
-.model DPULL D(Rs=1m)
+.model DPULL D(Rs=100u)
 *
 .ends
 *$
@@ -155,7 +155,7 @@ C3 5 4 {COUT/2}
 C4 3 5 {COUT/2}
 D3 5 3 DPULL
 D4 4 5 DPULL
-.model DPULL D(Rs=1m)
+.model DPULL D(Rs=100u)
 *
 .ends
 *$
@@ -174,13 +174,13 @@ D4 4 5 DPULL
 *
 .param A = {sqrt(Ionmax/Ioffmax)}
 *
-.param k0 = {log(sqrt((log(A))**2+1)-log(A))/PI}
+.param Ymin = {A*(sqrt((log(A))**2+1)+1)/2/exp(sqrt((log(A))**2+1)-1)}
 *
-.param Ymin = {((cosh(PI*k0/2))**2)*(A**(tanh(PI*k0/2)+1))/3.14}
+.param ep   = {A*(sqrt((log(A))**2+1)-1)/2/exp(sqrt((log(A))**2+1)-1)}
 *
-.param Y = {max(Rout*Ionmax*log(A)/Vgwid, Ymin)}
+.param Y = {max(PI*Rout*Ionmax*log(A)/Vgwid, Ymin)}
 *
-.param k = {2/PI*atanh(log(PI*(Y-0.41*log(0.36*A)))/log(A)-1)}
+.param k = {2/PI*atanh(log(Y-ep)/log(A)-1)}
 *
 .param Vh = {(PI*Rout*Ionmax*log(A)*(A**(-tanh(PI*k/2)-1))) / (cosh(PI*k/2)**2)}
 *
