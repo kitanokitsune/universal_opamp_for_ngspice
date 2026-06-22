@@ -59,8 +59,10 @@ BG1 0 N001 I='Islew*tanh((V(1,2)+Vos)*gm1/Islew)'
 C1  N001 0 {CC1}
 R11 N001 3 {2*RR1}
 R12 4 N001 {2*RR1}
-D1  N001 3 DPULL
-D2  4 N001 DPULL
+BHI  NHI 0 V='V(3)+0.3'
+BLO  NLO 0 V='V(4)-0.3'
+D1  N001 NHI DPULL
+D2  NLO N001 DPULL
 *
 * +--------------+
 * | Output Stage |
@@ -70,9 +72,10 @@ XQ2 4 5 5 N001 simulated_fet_sw Ionmax={ilimit} Vser={railn} Ron={Ron} Rout={Rou
 .param COUT=4p
 C3 5 4 {COUT/2}
 C4 3 5 {COUT/2}
-D3 5 3 DPULL
-D4 4 5 DPULL
-.model DPULL D(Rs=100u)
+D3 5 3 DPOUT
+D4 4 5 DPOUT
+.model DPULL D(Rs=1)
+.model DPOUT D(Rs=100u)
 *
 .ends
 *$
@@ -131,8 +134,10 @@ BG1 0 N001 I='Islew*tanh((V(1,2)+Vos)*gm1/Islew)'
 C1  N001 0 {CC1}
 R11 N001 3 {2*RR1}
 R12 4 N001 {2*RR1}
-D1  N001 3 DPULL
-D2  4 N001 DPULL
+BHI  NHI 0 V='V(3)+0.3'
+BLO  NLO 0 V='V(4)-0.3'
+D1  N001 NHI DPULL
+D2  NLO N001 DPULL
 *
 * +----------------+
 * | 2nd Pole Stage |
@@ -153,9 +158,10 @@ XG4 4 5 5 N002 simulated_fet_sw Ionmax={ilimit} Vser={railn} Ron={Ron} Rout={Rou
 .param COUT=4p
 C3 5 4 {COUT/2}
 C4 3 5 {COUT/2}
-D3 5 3 DPULL
-D4 4 5 DPULL
-.model DPULL D(Rs=100u)
+D3 5 3 DPOUT
+D4 4 5 DPOUT
+.model DPULL D(Rs=1)
+.model DPOUT D(Rs=100u)
 *
 .ends
 *$
